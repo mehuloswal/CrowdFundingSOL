@@ -171,6 +171,7 @@ fn donate(program_id: &Pubkey, accounts: &[AccountInfo], instruction_data: &[u8]
     campaign_data.amount_donated += **donator_program_account.lamports.borrow();
     **writing_account.try_borrow_mut_lamports()? += **donator_program_account.lamports.borrow();
     **donator_program_account.try_borrow_mut_lamports()? = 0;
+    campaign_data.serialize(&mut &mut writing_account.data.borrow_mut()[..])?;
 
     Ok(())
 }
